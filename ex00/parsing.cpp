@@ -24,16 +24,31 @@ void	parseLiteral(std::string& literal)
 {
 	std::size_t	len;
 	std::size_t	i;
-	bool	isFloat;
+	bool		isFloat;
 
-	if (literal == "nan" || literal == "inf" || literal == "-inf" || literal == "nanf" || literal == "inff" || literal == "-inff")
+	//check for pseudoliterals
+	if (literal == "nan" || literal == "inf" || literal == "-inf"
+		|| literal == "nanf" || literal == "inff" || literal == "-inff")
 		convertPseudoliterals(literal);
-	if (literal.length() == 1 && !std::isdigit(literal[0]))
-		convertCharacter(literal[0]);
-	if (literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'')
-		convertCharacter(literal[1]);
-	i = 0;
+
+	//check for characters
 	len = literal.length();
+	if (len == 1 && !std::isdigit(literal[0]))
+		convertCharacter(literal[0]);
+	i = 0;
+	while (i < len && std::isspace(literal[i]))
+		i++;
+	if (literal[i] == '\'' && ((i + 2) < len) && literal[i + 2] == '\'')
+	{
+		i += 3;
+		while (i < len && std::isspace(literal[i]))
+			i++;
+		if (i == len)
+			convertCharacter(trim(trim(literal, ' '), '\'')[0]);
+	}
+
+	//check for numbers
+	i = 0;
 	while (i < len && std::isspace(literal[i]))
 		i++;
 	if (literal[i] == '+' || literal[i] == '-')
