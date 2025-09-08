@@ -39,13 +39,18 @@ void	convertInt(std::string& literal)
 		printException();
 	ss2 << literal;
 	ss2 >> n;
-	if (n < 32 || n > 126)
-		std::cout << "char: Non displayable" << std::endl;
+	std::cout << "char: ";
+	if (n < 0 || n > 255)
+		std::cout << "impossible";
+	else if (n < 32 || n > 126)
+		std::cout << "Non displayable";
 	else
-		std::cout << "char: '" << static_cast<char>(n) << "'" << std::endl;
-	std::cout << "int: " << n << std::endl;
-	std::cout << "float: " << static_cast<float>(n) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(n) << ".0" << std::endl;
+		std::cout << "char: '" << static_cast<char>(n) << "'";
+	std::cout << std::endl;
+	std::cout << "int: " << n << std::endl
+	<< std::fixed << std::setprecision(1) 
+	<< "float: " << static_cast<float>(n) << "f" << std::endl
+	<< "double: " << static_cast<double>(n) << std::endl;
 	std::exit(0);
 }
 
@@ -58,17 +63,27 @@ void	convertFloat(std::string& literal)
 
 	ss1 << literal;
 	ss1 >> ln;
-	if (ln > std::numeric_limits<float>::max() || ln < std::numeric_limits<float>::min())
+	if (ln > std::numeric_limits<float>::max() || ln < -3.402823466f * pow(10.0f, 38.0f))
 		printException();
 	ss2 << literal;
 	ss2 >> n;
-	if (n < 32.0f || n > 126.0f)
-		std::cout << "char: Non displayable" << std::endl;
+	std::cout << "char: ";
+	if (n < 0.0f || n > 255.0f)
+		std::cout << "impossible";
+	else if (n < 32.0f || n > 126.0f)
+		std::cout << "Non displayable";
 	else
-		std::cout << "char: '" << static_cast<char>(n) << "'" << std::endl;
-	std::cout << "int: " << static_cast<int>(n) << std::endl;
-	std::cout << "float: " << n << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(n) << ".0" << std::endl;
+		std::cout << "char: '" << static_cast<char>(n) << "'";
+	std::cout << std::endl;
+	std::cout << "int: " << static_cast<int>(n) << std::endl
+	<< "float: " << n;
+	if (n - floor(n) == 0)
+		std::cout << ".0";
+	std::cout << "f" << std::endl
+	<< "double: " << static_cast<double>(n);
+	if (n - floor(n) == 0)
+		std::cout << ".0";
+	std::cout << std::endl;
 	std::exit(0);
 }
 

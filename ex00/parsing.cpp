@@ -59,9 +59,9 @@ void	parseLiteral(std::string& literal)
 		i++;
 	while (i < len && std::isspace(literal[i]))
 		i++;
-	isFloat = false;
 	if (i == len)
 		convertInt(trim(trim(literal, ' '), '+'));
+	isFloat = false;
 	if (literal[i] == '.')
 	{
 		i++;
@@ -77,7 +77,7 @@ void	parseLiteral(std::string& literal)
 		if (i < len)
 			printException();
 		if (isFloat)
-			convertFloat(trim(trim(literal, ' '), '+'));
+			convertFloat(trim(trim(trim(literal, ' '), '+'), 'f'));
 		convertDouble(trim(trim(literal, ' '), '+'));
 	}
 	printException();
