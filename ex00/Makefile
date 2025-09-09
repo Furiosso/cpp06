@@ -7,7 +7,8 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 CFILES = main.cpp\
 		 ScalarConverter.cpp\
 		 converters.cpp\
-		 parsing.cpp
+		 parsing.cpp\
+		 utils.cpp
 
 ODIR = build
 

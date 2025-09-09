@@ -16,11 +16,8 @@ void	convertPseudoliterals(const std::string& literal)
 
 void	convertCharacter(char c)
 {
-	if (c < 32 || c > 126)
-		std::cout << "char: Non displayable" << std::endl;
-	else
-		std::cout << "char: '" << c << "'" << std::endl;
-	std::cout<< "int: " << static_cast<int>(c) << std::endl
+	std::cout << "char: '" << c << "'" << std::endl
+	<< "int: " << static_cast<int>(c) << std::endl
 	<< "float: " << static_cast<float>(c) << ".0f" << std::endl
 	<< "double: " << static_cast<double>(c) << ".0" << std::endl;
 	std::exit(0);
@@ -60,13 +57,16 @@ void	convertFloat(std::string& literal)
 	std::stringstream	ss2;
 	long double			ln;
 	float				n;
+	int					fractionalCount;
 
 	ss1 << literal;
 	ss1 >> ln;
-	if (ln > std::numeric_limits<float>::max() || ln < -3.402823466f * pow(10.0f, 38.0f))
+	//if (ln > std::numeric_limits<float>::max() || ln < -3.402823466f * pow(10.0f, 38.0f))
+	if (ln > std::numeric_limits<float>::max() || ln < -std::numeric_limits<float>::max())
 		printException();
 	ss2 << literal;
 	ss2 >> n;
+	fractionalCount = countCiphers(literal);
 	std::cout << "char: ";
 	if (n < 0.0f || n > 255.0f)
 		std::cout << "impossible";
@@ -74,16 +74,14 @@ void	convertFloat(std::string& literal)
 		std::cout << "Non displayable";
 	else
 		std::cout << "char: '" << static_cast<char>(n) << "'";
-	std::cout << std::endl;
-	std::cout << "int: " << static_cast<int>(n) << std::endl
-	<< "float: " << n;
-	if (n - floor(n) == 0)
-		std::cout << ".0";
-	std::cout << "f" << std::endl
-	<< "double: " << static_cast<double>(n);
-	if (n - floor(n) == 0)
-		std::cout << ".0";
-	std::cout << std::endl;
+	std::cout << std::endl << "int: ";
+	if (ln > std::numeric_limits<int>::max() || ln < std::numeric_limits<int>::min())
+		std::cout << "impossible";
+	else
+		std::cout << static_cast<int>(n);
+	std::cout << std::endl
+	<< std::fixed << std::setprecision(fractionalCount) << "float: " << n << "f" << std::endl
+	<< "double: " << static_cast<double>(n) << std::endl;
 	std::exit(0);
 }
 

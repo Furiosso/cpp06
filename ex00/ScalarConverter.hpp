@@ -27,6 +27,7 @@ void	convertCharacter(char c);
 void	convertInt(std::string& literal);
 void	convertFloat(std::string& literal);
 void	convertDouble(std::string& literal);
+int		countCiphers(const std::string& literal);
 void	printException();
 
 #endif
