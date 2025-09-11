@@ -37,7 +37,7 @@ void	convertInt(std::string& literal)
 	ss2 << literal;
 	ss2 >> n;
 	std::cout << "char: ";
-	if (n < 0 || n > 255)
+	if (n < 0 || n > 127)
 		std::cout << "impossible";
 	else if (n < 32 || n > 126)
 		std::cout << "Non displayable";
@@ -68,7 +68,7 @@ void	convertFloat(std::string& literal)
 	ss2 >> n;
 	fractionalCount = countCiphers(literal);
 	std::cout << "char: ";
-	if (n < 0.0f || n > 255.0f)
+	if (n < 0.0f || n > 127.0f)
 		std::cout << "impossible";
 	else if (n < 32.0f || n > 126.0f)
 		std::cout << "Non displayable";
