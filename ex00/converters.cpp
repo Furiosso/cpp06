@@ -60,11 +60,11 @@ void	convertFloat(std::string& literal)
 	ss << literal;
 	ss >> n;
 	if (static_cast<long double>(n) > std::numeric_limits<float>::max()
-		|| static_cast<long double>(n) < -std::numeric_limits<float>::max()
-		|| (std::fabs(static_cast<long double>(n) - static_cast<long long>(n)) != 0
-			&& std::fabs(static_cast<long double>(n) - static_cast<long long>(n)) < std::numeric_limits<float>::epsilon()))
+		|| static_cast<long double>(n) < -std::numeric_limits<float>::max())
 		printException();
 	fractionalCount = countCiphers(literal);
+	if (std::fabs(n) - std::abs(static_cast<int>(n)) == 0)
+		fractionalCount = 1;
 	std::cout << "char: ";
 	if (n < 0.0f || n > 127.0f)
 		std::cout << "impossible";
@@ -90,18 +90,21 @@ void	convertDouble(std::string& literal)
 	std::stringstream	ss2;
 	long double			ln;
 	double				n;
-	int					fractionalCount;
+	int					fractionalCountD;
+	int					fractionalCountF;
 
 	ss1 << literal;
 	ss1 >> ln;
 	if (ln > std::numeric_limits<double>::max()
-		|| ln < -std::numeric_limits<double>::max() 
-		|| (std::fabs(ln - static_cast<long long>(ln)) != 0
-			&& std::fabs(ln - static_cast<long long>(ln)) < std::numeric_limits<double>::epsilon()))
+		|| ln < -std::numeric_limits<double>::max())
 		printException();
 	ss2 << literal;
 	ss2 >> n;
-	fractionalCount = countCiphers(literal);
+	fractionalCountF = fractionalCountD = countCiphers(literal);
+	if (std::fabs(n) - std::abs(static_cast<int>(n)) == 0)
+		fractionalCountD = 1;
+	if (std::fabs(static_cast<float>(n)) - std::abs(static_cast<int>(n)) == 0)
+		fractionalCountF = 1;
 	std::cout << "char: ";
 	if (n < 0.0 || n > 127.0)
 		std::cout << "impossible";
@@ -116,13 +119,13 @@ void	convertDouble(std::string& literal)
 	else
 		std::cout << static_cast<int>(n);
 	std::cout << std::endl
-	<< std::fixed << std::setprecision(fractionalCount) << "float: ";
+	<< std::fixed << std::setprecision(fractionalCountF) << "float: ";
 	if (n > std::numeric_limits<float>::max()
 		|| n < -std::numeric_limits<float>::max())
 		std::cout << "impossible";
 	else
 		std::cout << static_cast<float>(n) << "f";
-	std::cout << std::endl
+	std::cout << std::setprecision(fractionalCountD) << std::endl
 	<< "double: " << n << std::endl;
 	std::exit(0);
 }

@@ -6,10 +6,8 @@ int	countCiphers(const std::string& literal)
 	int j;
 	int	len;
 
-	i = 0;
 	len = literal.length();
-	while (i < len && literal[i] != '.')
-		i++;
+	i = literal.find('.');
 	if (i == len)
 		return 1;
 	i++;
