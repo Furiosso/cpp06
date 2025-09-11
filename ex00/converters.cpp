@@ -53,19 +53,17 @@ void	convertInt(std::string& literal)
 
 void	convertFloat(std::string& literal)
 {
-	std::stringstream	ss1;
-	std::stringstream	ss2;
-	long double			ln;
+	std::stringstream	ss;
 	float				n;
 	int					fractionalCount;
 
-	ss1 << literal;
-	ss1 >> ln;
-	//if (ln > std::numeric_limits<float>::max() || ln < -3.402823466f * pow(10.0f, 38.0f))
-	if (ln > std::numeric_limits<float>::max() || ln < -std::numeric_limits<float>::max())
+	ss << literal;
+	ss >> n;
+	if (static_cast<long double>(n) > std::numeric_limits<float>::max()
+		|| static_cast<long double>(n) < -std::numeric_limits<float>::max()
+		|| (std::fabs(static_cast<long double>(n) - static_cast<long long>(n)) != 0
+			&& std::fabs(static_cast<long double>(n) - static_cast<long long>(n)) < std::numeric_limits<float>::epsilon()))
 		printException();
-	ss2 << literal;
-	ss2 >> n;
 	fractionalCount = countCiphers(literal);
 	std::cout << "char: ";
 	if (n < 0.0f || n > 127.0f)
@@ -75,7 +73,8 @@ void	convertFloat(std::string& literal)
 	else
 		std::cout << "char: '" << static_cast<char>(n) << "'";
 	std::cout << std::endl << "int: ";
-	if (ln > std::numeric_limits<int>::max() || ln < std::numeric_limits<int>::min())
+	if (static_cast<double>(n) > std::numeric_limits<int>::max()
+		|| static_cast<double>(n) < std::numeric_limits<int>::min())
 		std::cout << "impossible";
 	else
 		std::cout << static_cast<int>(n);
@@ -87,7 +86,44 @@ void	convertFloat(std::string& literal)
 
 void	convertDouble(std::string& literal)
 {
-	std::cout << literal << " is double" << std::endl;
+	std::stringstream	ss1;
+	std::stringstream	ss2;
+	long double			ln;
+	double				n;
+	int					fractionalCount;
+
+	ss1 << literal;
+	ss1 >> ln;
+	if (ln > std::numeric_limits<double>::max()
+		|| ln < -std::numeric_limits<double>::max() 
+		|| (std::fabs(ln - static_cast<long long>(ln)) != 0
+			&& std::fabs(ln - static_cast<long long>(ln)) < std::numeric_limits<double>::epsilon()))
+		printException();
+	ss2 << literal;
+	ss2 >> n;
+	fractionalCount = countCiphers(literal);
+	std::cout << "char: ";
+	if (n < 0.0 || n > 127.0)
+		std::cout << "impossible";
+	else if (n < 32.0 || n > 126.0)
+		std::cout << "Non displayable";
+	else
+		std::cout << "char: '" << static_cast<char>(n) << "'";
+	std::cout << std::endl << "int: ";
+	if (n > std::numeric_limits<int>::max()
+		|| n < std::numeric_limits<int>::min())
+		std::cout << "impossible";
+	else
+		std::cout << static_cast<int>(n);
+	std::cout << std::endl
+	<< std::fixed << std::setprecision(fractionalCount) << "float: ";
+	if (n > std::numeric_limits<float>::max()
+		|| n < -std::numeric_limits<float>::max())
+		std::cout << "impossible";
+	else
+		std::cout << static_cast<float>(n) << "f";
+	std::cout << std::endl
+	<< "double: " << n << std::endl;
 	std::exit(0);
 }
 
