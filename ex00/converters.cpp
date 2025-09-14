@@ -42,7 +42,7 @@ void	convertInt(std::string& literal)
 	else if (n < 32 || n > 126)
 		std::cout << "Non displayable";
 	else
-		std::cout << "char: '" << static_cast<char>(n) << "'";
+		std::cout << "'" << static_cast<char>(n) << "'";
 	std::cout << std::endl;
 	std::cout << "int: " << n << std::endl
 	<< std::fixed << std::setprecision(1) 
@@ -71,7 +71,7 @@ void	convertFloat(std::string& literal)
 	else if (n < 32.0f || n > 126.0f)
 		std::cout << "Non displayable";
 	else
-		std::cout << "char: '" << static_cast<char>(n) << "'";
+		std::cout << "'" << static_cast<char>(n) << "'";
 	std::cout << std::endl << "int: ";
 	if (static_cast<double>(n) > std::numeric_limits<int>::max()
 		|| static_cast<double>(n) < std::numeric_limits<int>::min())
@@ -111,7 +111,7 @@ void	convertDouble(std::string& literal)
 	else if (n < 32.0 || n > 126.0)
 		std::cout << "Non displayable";
 	else
-		std::cout << "char: '" << static_cast<char>(n) << "'";
+		std::cout << "'" << static_cast<char>(n) << "'";
 	std::cout << std::endl << "int: ";
 	if (n > std::numeric_limits<int>::max()
 		|| n < std::numeric_limits<int>::min())

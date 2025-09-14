@@ -27,30 +27,33 @@ static void	identify(Base* p)
 	if (dynamic_cast<A*>(p))
 		std::cout << "It's an A" << std::endl;
 	if (dynamic_cast<B*>(p))
-		std::cout << "It's an B" << std::endl;
+		std::cout << "It's a B" << std::endl;
 	if (dynamic_cast<C*>(p))
-		std::cout << "It's an C" << std::endl;
+		std::cout << "It's a C" << std::endl;
 }
 
 static void	identify(Base& p)
 {
 	try
 	{
-		dynamic_cast<A&>(p);
+		A&	a = dynamic_cast<A&>(p);
+		a = A();
 		std::cout << "It's an A" << std::endl;
 	}
 	catch (...)
 	{
 		try
 		{
-			dynamic_cast<B&>(p);
+			B&	b = dynamic_cast<B&>(p);
+			b = B();
 			std::cout << "It's a B" << std::endl;
 		}
 		catch (...)
 		{
 			try
 			{
-				dynamic_cast<C&>(p);
+				C&	c = dynamic_cast<C&>(p);
+				c = C();
 				std::cout << "It's a C" << std::endl;
 			}
 			catch (...) {}
