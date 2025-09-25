@@ -44,23 +44,35 @@ void	convertInt(std::string& literal)
 	else
 		std::cout << "'" << static_cast<char>(n) << "'";
 	std::cout << std::endl;
-	std::cout << "int: " << n << std::endl
-	<< std::fixed << std::setprecision(1) 
-	<< "float: " << static_cast<float>(n) << "f" << std::endl
-	<< "double: " << static_cast<double>(n) << std::endl;
+	std::cout << "int: " << n << std::endl << std::fixed << std::setprecision(1) << "float: ";
+	if (!checkConversionF(literal, static_cast<float>(n)))
+		std::cout << "impossible" << std::endl;
+	else
+		std::cout << static_cast<float>(n) << "f" << std::endl;
+	std::cout << "double: ";
+	if (!checkConversionD(literal, static_cast<double>(n)))
+		std::cout << "impossible" << std::endl;
+	else
+		std::cout << static_cast<double>(n) << std::endl;
 	std::exit(0);
 }
 
 void	convertFloat(std::string& literal)
 {
-	std::stringstream	ss;
+	std::stringstream	ss1;
+	std::stringstream	ss2;
+	long double			ln;
 	float				n;
 	int					fractionalCount;
 
-	ss << literal;
-	ss >> n;
-	if (static_cast<long double>(n) > std::numeric_limits<float>::max()
-		|| static_cast<long double>(n) < -std::numeric_limits<float>::max())
+	ss1 << literal;
+	ss1 >> ln;
+	if (ln > std::numeric_limits<float>::max()
+		|| ln < -std::numeric_limits<float>::max())
+		printException();
+	ss2 << literal;
+	ss2 >> n;
+	if (!checkConversionF(literal, n))
 		printException();
 	fractionalCount = countCiphers(literal);
 	if (std::fabs(n) - std::abs(static_cast<int>(n)) == 0)
@@ -100,6 +112,8 @@ void	convertDouble(std::string& literal)
 		printException();
 	ss2 << literal;
 	ss2 >> n;
+	if (!checkConversionD(literal, n))
+		printException();
 	fractionalCountF = fractionalCountD = countCiphers(literal);
 	if (std::fabs(n) - std::abs(static_cast<int>(n)) == 0)
 		fractionalCountD = 1;
@@ -121,7 +135,8 @@ void	convertDouble(std::string& literal)
 	std::cout << std::endl
 	<< std::fixed << std::setprecision(fractionalCountF) << "float: ";
 	if (n > std::numeric_limits<float>::max()
-		|| n < -std::numeric_limits<float>::max())
+		|| n < -std::numeric_limits<float>::max()
+		|| !checkConversionF(literal, static_cast<float>(n)))
 		std::cout << "impossible";
 	else
 		std::cout << static_cast<float>(n) << "f";

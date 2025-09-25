@@ -22,6 +22,8 @@ class	ScalarConverter
 };
 
 void	parseLiteral(std::string& literal);
+bool	checkConversionF(const std::string& literal, float n);
+bool	checkConversionD(const std::string& literal, double n);
 void	convertPseudoliterals(const std::string& literal);
 void	convertCharacter(char c);
 void	convertInt(std::string& literal);
